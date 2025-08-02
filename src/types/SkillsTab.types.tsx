@@ -1,10 +1,17 @@
-export type TabKeyType = 'programming' | 'frontend' | 'backend' | 'tools';
+export type SkillPropTypes = {
+  skillData: SkillsType[];
+};
 
-export type SkillsType = Record<TabKeyType, string[]>;
+export type TabKeyType = 'programming' | 'frontend' | 'backend' | 'tools';
 
 export type TabType = {
   label: string;
   key: TabKeyType;
 };
 
-export type SkillIconsType = Record<string, string>;
+export type SkillType = {
+  name: string;
+  icon: string;
+};
+
+export type SkillsType = Record<TabKeyType, SkillType[]>;

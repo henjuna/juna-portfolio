@@ -8,10 +8,17 @@ import { Home } from './components/sections/Home';
 import { About } from './components/sections/About';
 import { Projects } from './components/sections/Projects';
 import Contact from './components/sections/Contact';
+import { useEducation } from './hooks/useEducation';
+import { useWorkExperience } from './hooks/useWorkExperience';
+import { useSkills } from './hooks/useSkills';
 
 function App() {
   const [isLoaded, setIsLoaded] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const { workData, workLoading } = useWorkExperience();
+  const { educData, educLoading } = useEducation();
+  const { skillData, skillLoading } = useSkills();
+
   return (
     <>
       {!isLoaded && <LoadingScreen onComplete={() => setIsLoaded(true)} />} {''}
@@ -23,7 +30,14 @@ function App() {
         <Navbar menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
         <MobileMenu menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
         <Home />
-        <About />
+        <About
+          workData={workData}
+          workLoading={workLoading}
+          educData={educData}
+          educLoading={educLoading}
+          skillData={skillData}
+          skillLoading={skillLoading}
+        />
         <Projects />
         <Contact />
       </div>

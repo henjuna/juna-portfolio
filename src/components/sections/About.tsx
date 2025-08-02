@@ -1,16 +1,19 @@
-import { useEducation } from '../../hooks/useEducation';
-import { useWorkExperience } from '../../hooks/useWorkExperience';
 import type {
+  aboutPropTypes,
   EducationTypes,
   WorkExperienceTypes,
 } from '../../types/About.types';
 import { SkillsTabs } from '../SkillsTab';
 import { RevealOnScroll } from './RevealOnScroll';
 
-export const About = () => {
-  const { workData, workLoading } = useWorkExperience();
-  const { educData, educLoading } = useEducation();
-
+export const About: React.FC<aboutPropTypes> = ({
+  workData,
+  workLoading,
+  educData,
+  educLoading,
+  skillData,
+  skillLoading,
+}) => {
   const educationData: EducationTypes[] = educData;
   const workExperienceData: WorkExperienceTypes[] = workData;
 
@@ -24,15 +27,15 @@ export const About = () => {
           <h2 className="text-3xl font-bold bg-gradient-to-r from-blue-500 to-cyan-400 bg-clip-text text-transparent text-center">
             About Me
           </h2>
-          {workLoading && educLoading ? (
-            <p className="text-center text-gray-400 text-lg">Loading...</p>
+          {workLoading && educLoading && skillLoading ? (
+            <span className="text-gray-400">Loading skills...</span>
           ) : (
             <>
               <p className="text-gray-300 mb-8 text-center">
                 Tools and frameworks I have experience working with.
               </p>
               <div className="rounded-xl p-8 border-white/10 border hover:-translate-y-1 transition-all">
-                <SkillsTabs />
+                <SkillsTabs skillData={skillData} />
               </div>
               <div className="p-6 rounded-xl border border-white/10 hover:-translate-y-1 transition-all mt-8">
                 <h3 className="text-xl font-bold mb-6 text-center">
