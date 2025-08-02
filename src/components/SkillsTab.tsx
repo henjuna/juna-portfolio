@@ -48,12 +48,12 @@ export const SkillsTabs = () => {
             <button
               key={tab.key}
               onClick={() => setActiveTab(tab.key)}
-              className={`px-5 py-2 text-sm md:text-base rounded-lg font-medium transition-all duration-200
-          ${
-            activeTab === tab.key
-              ? 'bg-blue-500 text-white shadow'
-              : 'text-blue-500 hover:bg-blue-500/10'
-          }`}
+              className={`flex-1 min-w-[120px] px-5 py-2 text-sm md:text-base text-center rounded-lg font-medium transition-all duration-200
+    ${
+      activeTab === tab.key
+        ? 'bg-blue-500 text-white shadow'
+        : 'text-blue-500 hover:bg-blue-500/10'
+    }`}
             >
               {tab.label}
             </button>
