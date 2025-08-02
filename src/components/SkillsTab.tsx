@@ -1,22 +1,26 @@
 import { useState } from 'react';
+import type {
+  SkillIconsType,
+  SkillsType,
+  TabKeyType,
+  TabType,
+} from '../types/skillsTab.types';
 
-type TabKey = 'programming' | 'frontend' | 'backend' | 'tools';
-
-const skills: Record<TabKey, string[]> = {
+const skills: SkillsType = {
   programming: ['Java', 'JavaScript', 'TypeScript', 'Python'],
   frontend: ['HTML', 'CSS', 'React', 'Tailwind CSS', 'Material UI'],
   backend: ['Node.js', 'MongoDB', 'Firebase'],
   tools: ['Git', 'VS Code', 'Postman'],
 };
 
-const tabs: { label: string; key: TabKey }[] = [
+const tabs: TabType[] = [
   { label: 'Programming', key: 'programming' },
   { label: 'Frontend', key: 'frontend' },
   { label: 'Backend', key: 'backend' },
   { label: 'Tools', key: 'tools' },
 ];
 
-const skillIcons: Record<string, string> = {
+const skillIcons: SkillIconsType = {
   Java: 'https://cdn-icons-png.flaticon.com/512/226/226777.png',
   JavaScript:
     'https://upload.wikimedia.org/wikipedia/commons/6/6a/JavaScript-logo.png',
@@ -37,7 +41,7 @@ const skillIcons: Record<string, string> = {
 };
 
 export const SkillsTabs = () => {
-  const [activeTab, setActiveTab] = useState<TabKey>('programming');
+  const [activeTab, setActiveTab] = useState<TabKeyType>('programming');
 
   return (
     <div className="w-full">

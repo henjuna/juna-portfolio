@@ -1,9 +1,6 @@
-type NavbarProps = {
-  menuOpen: boolean;
-  setMenuOpen: (open: boolean) => void;
-};
+import type { NavbarPropsType } from '../types/NavBar.types';
 
-export const MobileMenu = ({ menuOpen, setMenuOpen }: NavbarProps) => {
+export const MobileMenu = ({ menuOpen, setMenuOpen }: NavbarPropsType) => {
   return (
     <div
       className={`fixed top-0 left-0 w-full bg-[rgba(10,10,10,0.8)] z-40 flex flex-col items-center justify-center transition-all duration-300 ease-in-out ${

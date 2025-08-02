@@ -1,8 +1,12 @@
+import type {
+  EducationTypes,
+  WorkExperienceTypes,
+} from '../../types/About.types';
 import { SkillsTabs } from '../SkillsTab';
 import { RevealOnScroll } from './RevealOnScroll';
 
 export const About = () => {
-  const educationData = [
+  const educationData: EducationTypes[] = [
     {
       title: 'B.S. in Computer Science',
       school: 'New Era University',
@@ -23,7 +27,7 @@ export const About = () => {
     },
   ];
 
-  const workExperienceData = [
+  const workExperienceData: WorkExperienceTypes[] = [
     {
       date: '2025 - Present',
       title: 'Asst. R&D Engineer',
