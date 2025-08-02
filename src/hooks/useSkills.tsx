@@ -17,7 +17,7 @@ export const useSkills = () => {
         );
         setSkillData(result);
       } catch (error) {
-        console.error('Failed to fetch work experience:', error);
+        console.error('Failed to fetch skills:', error);
       } finally {
         setSkillLoading(false);
       }
