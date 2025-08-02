@@ -37,7 +37,7 @@ const skillIcons: Record<string, string> = {
 };
 
 export const SkillsTabs = () => {
-  const [activeTab, setActiveTab] = useState<TabKey>('frontend');
+  const [activeTab, setActiveTab] = useState<TabKey>('programming');
 
   return (
     <div className="w-full">
