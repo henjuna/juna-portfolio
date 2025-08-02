@@ -43,17 +43,17 @@ export const SkillsTabs = () => {
     <div className="w-full">
       {/* Tabs Navigation */}
       <div className="flex justify-center mb-6">
-        <div className="border border-blue-500 rounded-xl p-1 inline-flex flex-wrap items-center justify-center">
+        <div className="border border-blue-500 rounded-xl p-1 inline-flex flex-wrap items-center justify-center gap-0">
           {tabs.map((tab) => (
             <button
               key={tab.key}
               onClick={() => setActiveTab(tab.key)}
-              className={`flex-1 min-w-[120px] px-5 py-2 text-sm md:text-base text-center rounded-lg font-medium transition-all duration-200
-    ${
-      activeTab === tab.key
-        ? 'bg-blue-500 text-white shadow'
-        : 'text-blue-500 hover:bg-blue-500/10'
-    }`}
+              className={`w-[120px] py-2 text-sm md:text-base text-center rounded-lg font-semibold transition-all duration-200
+                ${
+                  activeTab === tab.key
+                    ? 'bg-blue-500 text-white shadow'
+                    : 'text-blue-500 hover:bg-blue-500/10'
+                }`}
             >
               {tab.label}
             </button>
