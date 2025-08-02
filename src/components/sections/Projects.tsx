@@ -1,4 +1,4 @@
-import type { ProjectType } from '../../types/projects.types';
+import type { ProjectType } from '../../types/Projects.types';
 import { RevealOnScroll } from './RevealOnScroll';
 
 export const Projects = () => {

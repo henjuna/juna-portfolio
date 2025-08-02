@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import type {
-  SkillIconsType,
   SkillsType,
-  TabKeyType,
   TabType,
-} from '../types/skillsTab.types';
+  SkillIconsType,
+  TabKeyType,
+} from '../types/SkillsTab.types';
 
 const skills: SkillsType = {
   programming: ['Java', 'JavaScript', 'TypeScript', 'Python'],

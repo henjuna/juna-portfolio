@@ -1,12 +1,14 @@
 export type EducationTypes = {
   title: string;
   school: string;
-  year: string;
+  yearFrom: string;
+  yearTo: string;
   details: string[];
 };
 
 export type WorkExperienceTypes = {
-  date: string;
+  yearFrom: string;
+  yearTo: string;
   title: string;
   company: string;
   details: string[];
