@@ -1,22 +1,91 @@
+import { useEffect } from 'react';
+import { useAboutStore } from '../../store/About.store';
+import { SkillsTabs } from '../SkillsTab';
+import { RevealOnScroll } from './RevealOnScroll';
 import type {
-  aboutPropTypes,
+  AboutStoreTypes,
   EducationTypes,
   WorkExperienceTypes,
 } from '../../types/About.types';
-import { SkillsTabs } from '../SkillsTab';
-import { RevealOnScroll } from './RevealOnScroll';
+import { query, collection, getDocs, orderBy } from 'firebase/firestore';
+import { db } from '../../firebase';
+import type { SkillsType } from '../../types/SkillsTab.types';
 
-export const About: React.FC<aboutPropTypes> = ({
-  workData,
-  workLoading,
-  educData,
-  educLoading,
-  skillData,
-  skillLoading,
-}) => {
-  const educationData: EducationTypes[] = educData;
-  const workExperienceData: WorkExperienceTypes[] = workData;
+/**
+ * initializes the About section data by fetching skills, education, and work experience.
+ * @param {AboutStoreTypes} store
+ */
+const loadData = (store: AboutStoreTypes) => {
+  fetchSkills(store);
+  fetchEducation(store);
+  fetchWorkExperience(store);
+};
 
+/**
+ * Fetches skills data from the Firestore database and updates the store.
+ * @param {AboutStoreTypes} store
+ */
+const fetchSkills = async (store: AboutStoreTypes) => {
+  try {
+    const q = query(collection(db, 'skills'));
+    const querySnapshot = await getDocs(q);
+    const result: SkillsType[] = querySnapshot.docs.map(
+      (doc) => doc.data() as SkillsType,
+    );
+    store.setSkillData(result);
+  } catch (error) {
+    console.error('Failed to fetch skills:', error);
+  } finally {
+    store.setSkillLoading(false);
+  }
+};
+
+/**
+ * Fetches education data from the Firestore database and updates the store.
+ * @param {AboutStoreTypes} store
+ */
+const fetchEducation = async (store: AboutStoreTypes) => {
+  try {
+    const q = query(collection(db, 'education'), orderBy('yearFrom', 'desc'));
+    const querySnapshot = await getDocs(q);
+    const result: EducationTypes[] = querySnapshot.docs.map(
+      (doc) => doc.data() as EducationTypes,
+    );
+    store.setEducationData(result);
+  } catch (error) {
+    console.error('Failed to fetch education:', error);
+  } finally {
+    store.setEducationLoading(false);
+  }
+};
+
+/**
+ * Fetches work experience data from the Firestore database and updates the store.
+ * @param {AboutStoreTypes} store
+ */
+const fetchWorkExperience = async (store: AboutStoreTypes) => {
+  try {
+    const q = query(
+      collection(db, 'workExperience'),
+      orderBy('yearFrom', 'desc'),
+    );
+    const querySnapshot = await getDocs(q);
+    const result: WorkExperienceTypes[] = querySnapshot.docs.map(
+      (doc) => doc.data() as WorkExperienceTypes,
+    );
+    store.setWorkData(result);
+  } catch (error) {
+    console.error('Failed to fetch work experience:', error);
+  } finally {
+    store.setWorkLoading(false);
+  }
+};
+
+export const About: React.FC = () => {
+  const store = useAboutStore();
+
+  useEffect(() => {}, []);
+  loadData(store);
   return (
     <section
       id="about"
@@ -27,7 +96,7 @@ export const About: React.FC<aboutPropTypes> = ({
           <h2 className="text-3xl font-bold bg-gradient-to-r from-blue-500 to-cyan-400 bg-clip-text text-transparent text-center">
             About Me
           </h2>
-          {workLoading && educLoading && skillLoading ? (
+          {store.workLoading && store.educLoading && store.skillLoading ? (
             <span className="text-gray-400">Loading skills...</span>
           ) : (
             <>
@@ -35,7 +104,7 @@ export const About: React.FC<aboutPropTypes> = ({
                 Tools and frameworks I have experience working with.
               </p>
               <div className="rounded-xl p-8 border-white/10 border hover:-translate-y-1 transition-all">
-                <SkillsTabs skillData={skillData} />
+                <SkillsTabs skillData={store.skillData} />
               </div>
               <div className="p-6 rounded-xl border border-white/10 hover:-translate-y-1 transition-all mt-8">
                 <h3 className="text-xl font-bold mb-6 text-center">
@@ -43,7 +112,7 @@ export const About: React.FC<aboutPropTypes> = ({
                 </h3>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-gray-300 items-stretch">
-                  {educationData.map((edu, index) => (
+                  {store.educationData.map((edu, index) => (
                     <div className="flex" key={index}>
                       <div className="bg-white/5 p-4 rounded-lg w-full">
                         <div className="text-center">
@@ -75,7 +144,7 @@ export const About: React.FC<aboutPropTypes> = ({
                     <div className="absolute left-1/2 top-0 h-full w-1 bg-blue-500 transform -translate-x-1/2" />
 
                     <div className="space-y-12">
-                      {workExperienceData.map((exp, index) => {
+                      {store.workData.map((exp, index) => {
                         const isRight = index % 2 === 0;
                         return (
                           <div

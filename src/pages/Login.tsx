@@ -18,8 +18,7 @@ export const Login = () => {
       );
       console.log('Login successful:', userCredential.user);
       setError(false);
-    } catch (error: any) {
-      console.error('Login failed:', error.message);
+    } catch {
       setError(true);
     }
   };
@@ -48,6 +47,12 @@ export const Login = () => {
                 setEmail(e.target.value);
                 setError(false);
               }}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') {
+                  e.preventDefault();
+                  (e.currentTarget.form as HTMLFormElement)?.requestSubmit();
+                }
+              }}
             />
           </div>
           <div className="relative">
@@ -63,6 +68,12 @@ export const Login = () => {
               onChange={(e) => {
                 setPassword(e.target.value);
                 setError(false);
+              }}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') {
+                  e.preventDefault();
+                  (e.currentTarget.form as HTMLFormElement)?.requestSubmit();
+                }
               }}
             />
           </div>

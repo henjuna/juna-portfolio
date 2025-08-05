@@ -9,21 +9,6 @@ body {
   color: #f3f4f6;
 }
 
-@layer utilities {
-  @keyframes loading {
-    0% {
-      transform: translateX(-100%);
-    }
-    100% {
-      transform: translateX(250%);
-    }
-  }
-
-  .animate-loading-bar {
-    animation: loading 0.8s ease infinite;
-  }
-}
-
 .reveal {
   opacity: 0;
   transform: translateY(20px);

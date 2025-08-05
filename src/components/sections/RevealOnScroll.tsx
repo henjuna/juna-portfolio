@@ -9,7 +9,7 @@ export const RevealOnScroll = ({ children }: { children: React.ReactNode }) => {
         if (entry.isIntersecting) ref.current?.classList.add('visible');
       },
       {
-        threshold: 0.2,
+        threshold: 0.05,
         rootMargin: '0px 0px -20% 0px',
       },
     );

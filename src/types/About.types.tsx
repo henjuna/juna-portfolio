@@ -24,3 +24,19 @@ export type WorkExperienceTypes = {
   company: string;
   details: string[];
 };
+
+export interface AboutStoreTypes {
+  skillData: SkillsType[];
+  skillLoading: boolean;
+  educationData: EducationTypes[];
+  educLoading: boolean;
+  workData: WorkExperienceTypes[];
+  workLoading: boolean;
+
+  setSkillData: (data: SkillsType[]) => void;
+  setSkillLoading: (loading: boolean) => void;
+  setEducationData: (data: EducationTypes[]) => void;
+  setEducationLoading: (loading: boolean) => void;
+  setWorkData: (data: WorkExperienceTypes[]) => void;
+  setWorkLoading: (loading: boolean) => void;
+}
