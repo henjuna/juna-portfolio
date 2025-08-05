@@ -1,27 +1,47 @@
-import { useState } from 'react';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
+import { useLoginStore } from '../store/Login.store';
+import { useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
+
+/**
+ *
+ * @param {ReturnType<typeof useNavigate>} navigate
+ */
+const processLogin = async (navigate: ReturnType<typeof useNavigate>) => {
+  const store = useLoginStore.getState();
+  const auth = getAuth();
+
+  try {
+    await signInWithEmailAndPassword(
+      auth,
+      store.formValues.email,
+      store.formValues.password,
+    );
+    store.setError(false);
+    navigate('/dashboard');
+  } catch {
+    store.setError(true);
+  }
+};
 
 export const Login = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState(false);
+  const store = useLoginStore();
+  const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const auth = getAuth();
-
-    try {
-      const userCredential = await signInWithEmailAndPassword(
-        auth,
-        email,
-        password,
-      );
-      console.log('Login successful:', userCredential.user);
-      setError(false);
-    } catch {
-      setError(true);
-    }
+    processLogin(navigate);
   };
+
+  useEffect(() => {
+    const auth = getAuth();
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      if (user) {
+        navigate('/dashboard');
+      }
+    });
+    return unsubscribe;
+  }, [navigate]);
 
   return (
     <section
@@ -39,13 +59,13 @@ export const Login = () => {
               type="email"
               placeholder="example@gmail.com"
               className={`w-full bg-white/5 border rounded px-4 py-3 text-white transition focus:outline-none focus:bg-blue-500/5 ${
-                error
+                store.error
                   ? 'border-red-500 focus:border-red-500'
                   : 'border-white/10 focus:border-blue-500'
               }`}
               onChange={(e) => {
-                setEmail(e.target.value);
-                setError(false);
+                store.formValues.setEmail(e.target.value);
+                store.setError(false);
               }}
               onKeyDown={(e) => {
                 if (e.key === 'Enter') {
@@ -61,13 +81,13 @@ export const Login = () => {
               type="password"
               placeholder="Password"
               className={`w-full bg-white/5 border rounded px-4 py-3 text-white transition focus:outline-none focus:bg-blue-500/5 ${
-                error
+                store.error
                   ? 'border-red-500 focus:border-red-500'
                   : 'border-white/10 focus:border-blue-500'
               }`}
               onChange={(e) => {
-                setPassword(e.target.value);
-                setError(false);
+                store.formValues.setPassword(e.target.value);
+                store.setError(false);
               }}
               onKeyDown={(e) => {
                 if (e.key === 'Enter') {
@@ -77,7 +97,7 @@ export const Login = () => {
               }}
             />
           </div>
-          {error && (
+          {store.error && (
             <p className="text-red-500 text-sm text-center -mt-4">
               Invalid email or password.
             </p>

@@ -17,6 +17,7 @@ import Contact from './components/sections/Contact';
 import { Login } from './pages/Login';
 import Dashboard from './pages/Dashboard';
 import PrivateRoute from './components/PrivateRoute';
+import { getAuth } from 'firebase/auth';
 
 function MainPortfolio() {
   return (
@@ -36,7 +37,13 @@ function AppContent() {
   useEffect(() => {
     const handleKeyPress = (e: KeyboardEvent) => {
       if (e.shiftKey && e.key === 'L') {
-        navigate('/login');
+        const auth = getAuth();
+        const user = auth.currentUser;
+        if (user) {
+          navigate('/dashboard');
+        } else {
+          navigate('/login');
+        }
       }
     };
 
