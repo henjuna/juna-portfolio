@@ -1,10 +1,30 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import type { NavbarPropsType } from '../types/NavBar.types';
+import { getAuth, onAuthStateChanged, signOut } from 'firebase/auth';
 
 export const Navbar = ({ menuOpen, setMenuOpen }: NavbarPropsType) => {
+  const auth = getAuth();
+  const [user, setUser] = useState(auth.currentUser);
+
+  const handleLogout = async () => {
+    try {
+      await signOut(auth);
+      window.location.href = '/juna-portfolio/';
+    } catch {
+      alert('Sign out failed. Please try again.');
+    }
+  };
+
   useEffect(() => {
     document.body.style.overflow = menuOpen ? 'hidden' : '';
   }, [menuOpen]);
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setUser(user);
+    });
+    return () => unsubscribe();
+  }, [auth]);
 
   return (
     <nav className="fixed top-0 w-full z-40 bg-[rgba(10, 10, 10, 0.8)] backdrop-blur-lg border-b border-white/10 shadow-lg">
@@ -23,32 +43,49 @@ export const Navbar = ({ menuOpen, setMenuOpen }: NavbarPropsType) => {
 
           <div className="hidden md:flex items-center space-x-8">
             <a
-              href="#home"
+              href="/juna-portfolio/#home"
               className="text-gray-300 hover:text-white transition-color"
             >
               Home
             </a>
 
             <a
-              href="#about"
+              href="/juna-portfolio/#about"
               className="text-gray-300 hover:text-white transition-color"
             >
               About
             </a>
 
             <a
-              href="#projects"
+              href="/juna-portfolio/#projects"
               className="text-gray-300 hover:text-white transition-color"
             >
               Projects
             </a>
 
             <a
-              href="#contact"
+              href="/juna-portfolio/#contact"
               className="text-gray-300 hover:text-white transition-color"
             >
               Contact
             </a>
+
+            {user && (
+              <>
+                <a
+                  href="/juna-portfolio/dashboard"
+                  className="text-gray-300 hover:text-white transition-colors"
+                >
+                  Dashboard
+                </a>
+                <button
+                  onClick={handleLogout}
+                  className="px-4 py-2 text-sm text-white bg-red-600 hover:bg-red-700 rounded transition-colors"
+                >
+                  Logout
+                </button>
+              </>
+            )}
           </div>
         </div>
       </div>
