@@ -56,6 +56,7 @@ export const Login = () => {
           <div className="relative">
             <input
               required
+              autoFocus
               type="email"
               placeholder="example@gmail.com"
               className={`w-full bg-white/5 border rounded px-4 py-3 text-white transition focus:outline-none focus:bg-blue-500/5 ${

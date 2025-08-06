@@ -4,6 +4,7 @@ import {
   Routes,
   Route,
   useNavigate,
+  HashRouter,
 } from 'react-router-dom';
 import './App.css';
 import './index.css';
@@ -74,9 +75,9 @@ function AppContent() {
 
 function App() {
   return (
-    <Router basename="/juna-portfolio">
+    <HashRouter>
       <AppContent />
-    </Router>
+    </HashRouter>
   );
 }
 

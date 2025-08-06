@@ -1,15 +1,31 @@
 import { useEffect, useState } from 'react';
 import type { NavbarPropsType } from '../types/NavBar.types';
 import { getAuth, onAuthStateChanged, signOut } from 'firebase/auth';
+import { useNavigate } from 'react-router-dom';
 
 export const Navbar = ({ menuOpen, setMenuOpen }: NavbarPropsType) => {
+  const navigate = useNavigate();
   const auth = getAuth();
   const [user, setUser] = useState(auth.currentUser);
+
+  const scrollToSection = (id: string) => {
+    if (
+      location.hash.includes('dashboard') ||
+      location.hash.includes('login')
+    ) {
+      navigate('/');
+      return;
+    }
+    const el = document.getElementById(id);
+    if (el) {
+      el.scrollIntoView({ behavior: 'auto' });
+    }
+  };
 
   const handleLogout = async () => {
     try {
       await signOut(auth);
-      window.location.href = '/juna-portfolio/';
+      navigate('/');
     } catch {
       alert('Sign out failed. Please try again.');
     }
@@ -30,7 +46,7 @@ export const Navbar = ({ menuOpen, setMenuOpen }: NavbarPropsType) => {
     <nav className="fixed top-0 w-full z-40 bg-[rgba(10, 10, 10, 0.8)] backdrop-blur-lg border-b border-white/10 shadow-lg">
       <div className="max-w-5xl mx-auto px-4">
         <div className="flex items-center justify-between h-16">
-          <a href="#home" className="font-mono text-xl font-bold text-white">
+          <a href="#" className="font-mono text-xl font-bold text-white">
             Hen<span className="text-blue-500">Juna</span>
           </a>
 
@@ -43,29 +59,29 @@ export const Navbar = ({ menuOpen, setMenuOpen }: NavbarPropsType) => {
 
           <div className="hidden md:flex items-center space-x-8">
             <a
-              href="/juna-portfolio/#home"
-              className="text-gray-300 hover:text-white transition-color"
+              onClick={() => scrollToSection('home')}
+              className="text-gray-300 hover:text-white transition-colors cursor-pointer"
             >
               Home
             </a>
 
             <a
-              href="/juna-portfolio/#about"
-              className="text-gray-300 hover:text-white transition-color"
+              onClick={() => scrollToSection('about')}
+              className="text-gray-300 hover:text-white transition-colors cursor-pointer"
             >
               About
             </a>
 
             <a
-              href="/juna-portfolio/#projects"
-              className="text-gray-300 hover:text-white transition-color"
+              onClick={() => scrollToSection('projects')}
+              className="text-gray-300 hover:text-white transition-colors cursor-pointer"
             >
               Projects
             </a>
 
             <a
-              href="/juna-portfolio/#contact"
-              className="text-gray-300 hover:text-white transition-color"
+              onClick={() => scrollToSection('contact')}
+              className="text-gray-300 hover:text-white transition-colors cursor-pointer"
             >
               Contact
             </a>
@@ -73,7 +89,7 @@ export const Navbar = ({ menuOpen, setMenuOpen }: NavbarPropsType) => {
             {user && (
               <>
                 <a
-                  href="/juna-portfolio/dashboard"
+                  href="#/dashboard"
                   className="text-gray-300 hover:text-white transition-colors"
                 >
                   Dashboard
