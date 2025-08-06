@@ -1,14 +1,7 @@
 import { useEffect, useState } from 'react';
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  useNavigate,
-  HashRouter,
-} from 'react-router-dom';
+import { Routes, Route, useNavigate, HashRouter } from 'react-router-dom';
 import './App.css';
 import './index.css';
-
 import { MobileMenu } from './components/MobileMenu';
 import { Navbar } from './components/NavBar';
 import { Home } from './components/sections/Home';
