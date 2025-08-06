@@ -83,8 +83,10 @@ const fetchWorkExperience = async (store: AboutStoreTypes) => {
 export const About: React.FC = () => {
   const store = useAboutStore();
 
-  useEffect(() => {}, []);
-  loadData(store);
+  useEffect(() => {
+    loadData(store);
+  }, []);
+
   return (
     <section
       id="about"
