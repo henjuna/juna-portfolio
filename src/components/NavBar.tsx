@@ -13,7 +13,7 @@ export const Navbar = ({ menuOpen, setMenuOpen }: NavbarPropsType) => {
       location.hash.includes('dashboard') ||
       location.hash.includes('login')
     ) {
-      navigate('/');
+      navigate('/', { state: { scrollTo: id } });
       return;
     }
     const el = document.getElementById(id);

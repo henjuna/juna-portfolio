@@ -1,35 +1,8 @@
 import juna from '../../assets/Juna.png';
-import type { HomeDataTypes, HomeStoreTypes } from '../../types/Home.types';
-import { query, collection, getDocs } from 'firebase/firestore';
-import { useEffect } from 'react';
-import { db } from '../../firebase';
-import { useHomeStore } from '../../store/Home.store';
-
-/**
- * Load Introduction data from Firestore and update the store.
- * @param store  HomeStoreTypes
- */
-const loadData = async (store: HomeStoreTypes) => {
-  try {
-    const q = query(collection(db, 'intro'));
-    const querySnapshot = await getDocs(q);
-    const result: HomeDataTypes[] = querySnapshot.docs.map(
-      (doc) => doc.data() as HomeDataTypes,
-    );
-    store.setHomeData(result);
-  } catch (error) {
-    console.error('Failed to fetch profile:', error);
-  } finally {
-    store.setHomeLoading(false);
-  }
-};
+import { useMainPageStore } from '../../store/MainPage.store';
 
 export const Home: React.FC = () => {
-  const store = useHomeStore();
-
-  useEffect(() => {
-    loadData(store);
-  }, []);
+  const store = useMainPageStore();
 
   return (
     <section

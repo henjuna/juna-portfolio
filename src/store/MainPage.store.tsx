@@ -1,7 +1,17 @@
 import { create } from 'zustand';
-import type { AboutStoreTypes } from '../types/About.types';
+import type { MainPageStoreTypes } from '../types/MainPage.types';
 
-export const useAboutStore = create<AboutStoreTypes>((set) => ({
+export const useMainPageStore = create<MainPageStoreTypes>((set) => ({
+  hasUpdated: true,
+  setHasUpdated: (updated) => set({ hasUpdated: updated }),
+
+  // Intro Data
+  homeData: [],
+  setHomeData: (data) => set({ homeData: data }),
+  homeLoading: true,
+  setHomeLoading: (loading) => set({ homeLoading: loading }),
+
+  // About Data
   skillData: [],
   skillLoading: true,
   educationData: [],

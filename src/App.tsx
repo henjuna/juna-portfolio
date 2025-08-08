@@ -1,5 +1,11 @@
 import { useEffect, useState } from 'react';
-import { Routes, Route, useNavigate, HashRouter } from 'react-router-dom';
+import {
+  Routes,
+  Route,
+  useNavigate,
+  HashRouter,
+  useLocation,
+} from 'react-router-dom';
 import './App.css';
 import './index.css';
 import { MobileMenu } from './components/MobileMenu';
@@ -12,8 +18,27 @@ import { Login } from './pages/Login';
 import Dashboard from './pages/Dashboard';
 import PrivateRoute from './components/PrivateRoute';
 import { getAuth } from 'firebase/auth';
+import { loadMainData } from './API/main';
+import { useMainPageStore } from './store/MainPage.store';
 
 function MainPortfolio() {
+  const location = useLocation();
+  const store = useMainPageStore();
+
+  useEffect(() => {
+    if (store.hasUpdated) {
+      loadMainData();
+      store.setHasUpdated(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (location.state?.scrollTo) {
+      const el = document.getElementById(location.state.scrollTo);
+      if (el) el.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, [location]);
+
   return (
     <>
       <Home />
