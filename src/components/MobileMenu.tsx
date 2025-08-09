@@ -111,7 +111,10 @@ export const MobileMenu = ({ menuOpen, setMenuOpen }: NavbarPropsType) => {
       {user && (
         <>
           <a
-            href="#/dashboard"
+            onClick={() => {
+              setMenuOpen(false);
+              navigate('/dashboard', { state: { fromMobile: true } });
+            }}
             className={`text-2xl font-semibold text-white my-4 transform transition-transform duration-300 ${
               menuOpen ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'
             }`}
@@ -120,6 +123,7 @@ export const MobileMenu = ({ menuOpen, setMenuOpen }: NavbarPropsType) => {
           </a>
           <button
             onClick={() => {
+              setMenuOpen(false);
               handleLogout(auth, navigate);
             }}
             className={`text-2xl font-semibold text-white bg-red-600 hover:bg-red-700 px-4 py-2 rounded my-4 transform transition-transform duration-300 ${

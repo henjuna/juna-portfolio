@@ -46,7 +46,7 @@ export const Login = () => {
   return (
     <section
       id="login"
-      className="min-h-screen flex items-center justify-center relative pt-20"
+      className="min-h-screen flex items-center justify-center relative pt-20 px-4"
     >
       <div className="w-full max-w-md bg-white/10 p-8 rounded-xl shadow-lg">
         <h1 className="text-3xl font-bold mb-8 bg-gradient-to-r from-blue-500 to-cyan-400 bg-clip-text text-transparent text-center">

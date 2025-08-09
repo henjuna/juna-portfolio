@@ -99,7 +99,10 @@ export const Navbar = ({ menuOpen, setMenuOpen }: NavbarPropsType) => {
             {user && (
               <>
                 <a
-                  href="#/dashboard"
+                  onClick={() => {
+                    setMenuOpen(false);
+                    navigate('/dashboard', { state: { fromMobile: false } });
+                  }}
                   className="text-gray-300 hover:text-white transition-colors"
                 >
                   Dashboard
