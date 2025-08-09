@@ -1,13 +1,11 @@
 import { useState } from 'react';
-import type {
-  SkillPropTypes,
-  SkillsType,
-  TabKeyType,
-  TabType,
-} from '../types/SkillsTab.types';
+import type { SkillsType, TabKeyType, TabType } from '../types/SkillsTab.types';
+import { useMainPageStore } from '../store/MainPage.store';
 
-export const SkillsTabs: React.FC<SkillPropTypes> = ({ skillData }) => {
+export const SkillsTabs: React.FC = () => {
+  const store = useMainPageStore();
   const [activeTab, setActiveTab] = useState<TabKeyType>('programming');
+  const skillData = store.skillData;
 
   const tabs: TabType[] = [
     { label: 'Programming', key: 'programming' },
