@@ -16,7 +16,7 @@ export const Home: React.FC = () => {
           className="border border-blue-500/50 mx-auto w-60 h-60 rounded-full mb-6 hover:shadow-[0_0_15px_rgba(59,130,246,0.4)]"
         />
         {/* Optionally render nothing or a fallback if homeData is empty */}
-        {store.homeData.length < 0 ? (
+        {store.homeData.length > 0 ? (
           <>
             <h1 className="text-5xl md:text-7xl font-bold mb-6  bg-gradient-to-r from-blue-500 to-cyan-400 bg-clip-text text-transparent leading-right">
               Hi, I'm {store.homeData[0].name}
