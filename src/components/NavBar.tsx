@@ -57,7 +57,7 @@ export const Navbar = ({ menuOpen, setMenuOpen }: NavbarPropsType) => {
             onClick={() => scrollToSection('home', navigate)}
             className="font-mono text-xl font-bold text-white"
           >
-            Hen<span className="text-blue-500">Juna</span>
+            Hen<span className="text-blue-500 cursor-pointer">Juna</span>
           </a>
 
           <div
@@ -103,7 +103,7 @@ export const Navbar = ({ menuOpen, setMenuOpen }: NavbarPropsType) => {
                     setMenuOpen(false);
                     navigate('/dashboard', { state: { fromMobile: false } });
                   }}
-                  className="text-gray-300 hover:text-white transition-colors"
+                  className="text-gray-300 hover:text-white transition-colors cursor-pointer"
                 >
                   Dashboard
                 </a>
