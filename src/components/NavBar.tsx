@@ -1,35 +1,42 @@
 import { useEffect, useState } from 'react';
 import type { NavbarPropsType } from '../types/NavBar.types';
-import { getAuth, onAuthStateChanged, signOut } from 'firebase/auth';
-import { useNavigate } from 'react-router-dom';
+import { getAuth, onAuthStateChanged, signOut, type Auth } from 'firebase/auth';
+import { useNavigate, type NavigateFunction } from 'react-router-dom';
+
+/**
+ * Scrolls to a specific section of the page.
+ * @param {string} id
+ * @param {NavigateFunction} navigate
+ */
+const scrollToSection = async (id: string, navigate: NavigateFunction) => {
+  if (location.hash.includes('dashboard') || location.hash.includes('login')) {
+    navigate('/', { state: { scrollTo: id } });
+    return;
+  }
+  const el = document.getElementById(id);
+  if (el) {
+    el.scrollIntoView({ behavior: 'auto' });
+  }
+};
+
+/**
+ * Handles user logout and redirects to the home page.
+ * @param {Auth} auth
+ * @param {NavigateFunction} navigate
+ */
+const handleLogout = async (auth: Auth, navigate: NavigateFunction) => {
+  try {
+    await signOut(auth);
+    navigate('/');
+  } catch {
+    alert('Sign out failed. Please try again.');
+  }
+};
 
 export const Navbar = ({ menuOpen, setMenuOpen }: NavbarPropsType) => {
   const navigate = useNavigate();
   const auth = getAuth();
   const [user, setUser] = useState(auth.currentUser);
-
-  const scrollToSection = (id: string) => {
-    if (
-      location.hash.includes('dashboard') ||
-      location.hash.includes('login')
-    ) {
-      navigate('/', { state: { scrollTo: id } });
-      return;
-    }
-    const el = document.getElementById(id);
-    if (el) {
-      el.scrollIntoView({ behavior: 'auto' });
-    }
-  };
-
-  const handleLogout = async () => {
-    try {
-      await signOut(auth);
-      navigate('/');
-    } catch {
-      alert('Sign out failed. Please try again.');
-    }
-  };
 
   useEffect(() => {
     document.body.style.overflow = menuOpen ? 'hidden' : '';
@@ -46,7 +53,10 @@ export const Navbar = ({ menuOpen, setMenuOpen }: NavbarPropsType) => {
     <nav className="fixed top-0 w-full z-40 bg-[rgba(10, 10, 10, 0.8)] backdrop-blur-lg border-b border-white/10 shadow-lg">
       <div className="max-w-5xl mx-auto px-4">
         <div className="flex items-center justify-between h-16">
-          <a href="#" className="font-mono text-xl font-bold text-white">
+          <a
+            onClick={() => scrollToSection('home', navigate)}
+            className="font-mono text-xl font-bold text-white"
+          >
             Hen<span className="text-blue-500">Juna</span>
           </a>
 
@@ -59,28 +69,28 @@ export const Navbar = ({ menuOpen, setMenuOpen }: NavbarPropsType) => {
 
           <div className="hidden md:flex items-center space-x-8">
             <a
-              onClick={() => scrollToSection('home')}
+              onClick={() => scrollToSection('home', navigate)}
               className="text-gray-300 hover:text-white transition-colors cursor-pointer"
             >
               Home
             </a>
 
             <a
-              onClick={() => scrollToSection('about')}
+              onClick={() => scrollToSection('about', navigate)}
               className="text-gray-300 hover:text-white transition-colors cursor-pointer"
             >
               About
             </a>
 
             <a
-              onClick={() => scrollToSection('projects')}
+              onClick={() => scrollToSection('projects', navigate)}
               className="text-gray-300 hover:text-white transition-colors cursor-pointer"
             >
               Projects
             </a>
 
             <a
-              onClick={() => scrollToSection('contact')}
+              onClick={() => scrollToSection('contact', navigate)}
               className="text-gray-300 hover:text-white transition-colors cursor-pointer"
             >
               Contact
@@ -95,7 +105,9 @@ export const Navbar = ({ menuOpen, setMenuOpen }: NavbarPropsType) => {
                   Dashboard
                 </a>
                 <button
-                  onClick={handleLogout}
+                  onClick={() => {
+                    handleLogout(auth, navigate);
+                  }}
                   className="px-4 py-2 text-sm text-white bg-red-600 hover:bg-red-700 rounded transition-colors"
                 >
                   Logout
